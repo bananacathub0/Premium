@@ -1,1 +1,94 @@
 
+--========================================
+-- BANANA CAT HUB - ALL GET KEY OPTIONS
+--========================================
+
+local GuiService = game:GetService("GuiService")
+
+local KEY_LINKS = {
+    Linkvertise = "https://www.roblox.ly/communities/6308930194/BANANA-SCRIPT",
+    LootLabs = "https://discord.gg/wPyTAwXFP",
+    OwnWebsite = "https://discord.gg/wPyTAwXFP"
+}
+
+local Menu = Instance.new("Frame")
+Menu.Name = "GetKeyMenu"
+Menu.Size = UDim2.fromOffset(250, 190)
+Menu.Position = UDim2.new(0.5, -125, 0.5, -95)
+Menu.BackgroundColor3 = Color3.fromRGB(15,15,15)
+Menu.Visible = false
+Menu.ZIndex = 5
+Menu.Parent = ScreenGui
+
+Instance.new("UICorner",Menu).CornerRadius =
+    UDim.new(0,15)
+
+local Border = Instance.new("UIStroke")
+Border.Color = Color3.fromRGB(255,210,0)
+Border.Thickness = 2
+Border.Parent = Menu
+
+local function CreateOption(name, y)
+
+    local Button = Instance.new("TextButton")
+    Button.Size = UDim2.new(1,-20,0,35)
+    Button.Position = UDim2.fromOffset(10,y)
+    Button.BackgroundColor3 = Color3.fromRGB(40,40,40)
+    Button.Text = name
+    Button.TextColor3 = Color3.fromRGB(255,215,0)
+    Button.Font = Enum.Font.GothamBold
+    Button.TextSize = 14
+    Button.ZIndex = 6
+    Button.Parent = Menu
+
+    Instance.new("UICorner",Button).CornerRadius =
+        UDim.new(0,8)
+
+    return Button
+end
+
+local Linkvertise = CreateOption("LINKVERTISE",10)
+local LootLabs = CreateOption("LOOTLABS",52)
+local OwnWebsite = CreateOption("MY WEBSITE",94)
+local CloseMenu = CreateOption("CLOSE",136)
+
+GetKey.MouseButton1Click:Connect(function()
+    Menu.Visible = not Menu.Visible
+end)
+
+local function OpenLink(url)
+
+    if not url or url:find("YOUR_") then
+        Status.Text = "PLEASE CONFIGURE YOUR LINK!"
+        Status.TextColor3 = Color3.fromRGB(255,60,60)
+        return
+    end
+
+    local success = pcall(function()
+        GuiService:OpenBrowserWindow(url)
+    end)
+
+    if success then
+        Status.Text = "OPENING GET KEY..."
+        Status.TextColor3 = Color3.fromRGB(0,255,100)
+    else
+        Status.Text = "UNABLE TO OPEN LINK!"
+        Status.TextColor3 = Color3.fromRGB(255,60,60)
+    end
+end
+
+Linkvertise.MouseButton1Click:Connect(function()
+    OpenLink(KEY_LINKS.Linkvertise)
+end)
+
+LootLabs.MouseButton1Click:Connect(function()
+    OpenLink(KEY_LINKS.LootLabs)
+end)
+
+OwnWebsite.MouseButton1Click:Connect(function()
+    OpenLink(KEY_LINKS.OwnWebsite)
+end)
+
+CloseMenu.MouseButton1Click:Connect(function()
+    Menu.Visible = false
+end)
